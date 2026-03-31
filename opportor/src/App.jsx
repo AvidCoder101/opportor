@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
+import { Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -28,7 +29,8 @@ function App() {
     <Router>
       <Navbar user={user} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/browse" element={<Browse />} />
         <Route path="/saved" element={<Saved user={user} />} />
         <Route path="/login" element={<Login />} />
