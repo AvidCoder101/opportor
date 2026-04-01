@@ -1,8 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
-import { Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -12,6 +11,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Opportunity from "./pages/Opportunity";
 import OpportunityDetail from "./pages/OpportunityDetail";
+import ResumeBuilder from "./pages/ResumeBuilder";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <>
       <Navbar user={user} />
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
@@ -35,10 +35,10 @@ function App() {
         <Route path="/saved" element={<Saved user={user} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/opportunity/:id" element={<Opportunity />} />
         <Route path="/opportunity/:id" element={<OpportunityDetail />} />
+        <Route path="/resume" element={<ResumeBuilder />} />
       </Routes>
-    </Router>
+      </>
   );
 };
 

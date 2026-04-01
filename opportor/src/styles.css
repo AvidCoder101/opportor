@@ -553,3 +553,32 @@ body::before {
   border-color: #b08968;
   box-shadow: 0 0 0 2px rgba(176,137,104,0.2);
 }
+
+.resume-builder {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.resume-form {
+  background: #fffaf3;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.resume-form input,
+.resume-form textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.resume-preview {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
