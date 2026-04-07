@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAccessibility } from "../context/useAccessibility";
+import { useAccessibility } from "../src/context/useAccessibility";
 
 function AccessibilityPanel() {
   const [open, setOpen] = useState(false);
