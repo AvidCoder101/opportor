@@ -1,74 +1,64 @@
-import { useState } from "react";
-import { useAccessibility } from "../src/context/useAccessibility";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/config";
+import { useAccessibility } from "./context/useAccessibility";
 
-function AccessibilityPanel() {
-  const [open, setOpen] = useState(false);
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Browse from "./pages/Browse";
+import Saved from "./pages/Saved";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import OpportunityDetail from "./pages/OpportunityDetail";
+import ResumeBuilder from "./pages/ResumeBuilder";
+import AccessibilityPanel from "./components/AccessibilityPanel";
+
+function App() {
+  const [user, setUser] = useState(null);
 
   const {
     fontSize,
-    setFontSize,
     highContrast,
-    setHighContrast,
     reduceMotion,
-    setReduceMotion,
     dyslexiaFont,
-    setDyslexiaFont,
   } = useAccessibility();
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <>
-      <button
-        className="accessibility-toggle"
-        onClick={() => setOpen(!open)}
-      >
-        ⚙️
-      </button>
+  <>
+    <AccessibilityPanel />
 
-      {open && (
-        <div className="accessibility-panel">
-          <h3>Accessibility</h3>
+    <div
+      className={`
+        ${fontSize === "large" ? "large-text" : ""}
+        ${highContrast ? "high-contrast" : ""}
+        ${reduceMotion ? "reduce-motion" : ""}
+        ${dyslexiaFont ? "dyslexia-font" : ""}
+      `}
+    >
+      <Navbar user={user} />
 
-          <label>
-            Font Size:
-            <select
-              value={fontSize}
-              onChange={(e) => setFontSize(e.target.value)}
-            >
-              <option value="normal">Normal</option>
-              <option value="large">Large</option>
-            </select>
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              checked={highContrast}
-              onChange={() => setHighContrast(!highContrast)}
-            />
-            High Contrast
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              checked={reduceMotion}
-              onChange={() => setReduceMotion(!reduceMotion)}
-            />
-            Reduce Animations
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              checked={dyslexiaFont}
-              onChange={() => setDyslexiaFont(!dyslexiaFont)}
-            />
-            Dyslexia-Friendly Font
-          </label>
-        </div>
-      )}
-    </>
-  );
+      <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/browse" element={<Browse />} />
+        <Route path="/saved" element={<Saved user={user} />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/opportunity/:id" element={<OpportunityDetail />} />
+        <Route path="/resume" element={<ResumeBuilder />} />
+      </Routes>
+    </div>
+  </>
+);
 }
 
-export default AccessibilityPanel;
+export default App;

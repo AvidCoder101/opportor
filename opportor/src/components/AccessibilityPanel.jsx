@@ -1,4 +1,4 @@
-import { useAccessibility } from "../context/AccessibilityContext";
+import { useAccessibility } from "../context/useAccessibility";
 
 function AccessibilityPanel() {
   const {

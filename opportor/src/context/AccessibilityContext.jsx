@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-const AccessibilityContext = createContext();
+export const AccessibilityContext = createContext();
 
 export function AccessibilityProvider({ children }) {
   const [fontSize, setFontSize] = useState("normal");
@@ -25,5 +25,3 @@ export function AccessibilityProvider({ children }) {
     </AccessibilityContext.Provider>
   );
 }
-
-export default AccessibilityContext;
